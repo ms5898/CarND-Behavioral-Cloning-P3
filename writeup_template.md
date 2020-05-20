@@ -22,70 +22,38 @@ My model is samiliar with the network in the lesson ``Even More Powerful Network
 
 #### 2. Attempts to reduce overfitting in the model
 
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
-
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
+The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 107-111). 
 
 #### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 106).
 
 #### 4. Appropriate training data
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
+I used three dataset to train the network, one is the original `project3_data /data` given by udacity and the other two is I get from the simulator called `project3_data/road_1` and `project3_data/road_rev_1`. There are 14207 center images in these three folders in total. I split them into training set (11365 images) and valid set (2842 images).
 
-For details about how I created the training data, see the next section. 
+---
 
-### Model Architecture and Training Strategy
+### Overall Design Process in Behavioral Cloning Project
 
-#### 1. Solution Design Approach
+* I used the neural network samiliar with the network in the lesson ``Even More Powerful Network`` proposed by NVIDIA. The first layer is a Lambda layer to normalize the input image, then followed by a Cropping2D layer to crop the iamge for faster training. The result of this Cropping2D layer is shown below. The rest of the network are some convoluation layers and fully connected layers.
 
-The overall strategy for deriving a model architecture was to ...
+**Before Crop**
 
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
+![Before Crop](./examples/before_crop.jpg)
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
+**After Crop**
 
-To combat the overfitting, I modified the model so that ...
+![After Crop](./examples/after_crop.png)
 
-Then I ... 
+* To do the data agumentation I flip the each images and angles and use the augmentated dataset to do training and validation. The data agumentation process is shown below:
 
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
+**Before Agumentation**
+![Before Agumentation](./examples/Before_Augmentated.jpg)
 
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
+**After Agumentation**
+![After Agumentation](./examples/After_Augmentated.JPG)
 
-#### 2. Final Model Architecture
+* Then I trained the network by using Keras build in adam optimizer and mean square error, I trained the network 5 epoaches to avoid overfitting.
 
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
-
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
-
-![alt text][image1]
-
-#### 3. Creation of the Training Set & Training Process
-
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
-
-![alt text][image2]
-
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
-
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
-
-Then I repeated this process on track two in order to get more data points.
-
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
-
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
-
-
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
-
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+* Finally I use the simulator to test the model `model.h5` and generate the video to visual which is `run1.mp4`
