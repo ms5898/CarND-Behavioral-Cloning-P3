@@ -49,11 +49,14 @@ I used three dataset to train the network, one is the original `project3_data /d
 * To do the data agumentation I flip the each images and angles and use the augmentated dataset to do training and validation. The data agumentation process is shown below:
 
 **Before Agumentation**
+
 ![Before Agumentation](./examples/Before_Augmentated.jpg)
 
 **After Agumentation**
+
 ![After Agumentation](./examples/After_Augmentated.JPG)
 
 * Then I trained the network by using Keras build in adam optimizer and mean square error, I trained the network 5 epoaches to avoid overfitting.
 
 * Finally I use the simulator to test the model `model.h5` and generate the video to visual which is `run1.mp4`
+
