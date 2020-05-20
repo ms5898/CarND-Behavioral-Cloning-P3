@@ -30,7 +30,7 @@ The model used an adam optimizer, so the learning rate was not tuned manually (m
 
 #### 4. Appropriate training data
 
-I used three dataset to train the network, one is the original `project3_data /data` given by udacity and the other two is I get from the simulator called `project3_data/road_1` and `project3_data/road_rev_1`. There are 14207 center images in these three folders in total. I split them into training set (11365 images) and valid set (2842 images).
+I used three dataset to train the network, one is the original `project3_data /data` given by udacity and the other two is I get from the simulator called `project3_data/road_1` and `project3_data/road_rev_1`. There are 14207 center images in these three folders in total. I split them into training set (11365 images) and valid set (2842 images). You can download the data from [Google Drive](https://drive.google.com/open?id=1W9u-KEaQ6d1c0xBiFDHxPzmCPZbYcRLa) 
 
 ---
 
