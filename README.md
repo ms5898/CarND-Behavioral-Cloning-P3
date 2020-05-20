@@ -1,125 +1,62 @@
-# Behavioral Cloning Project
+# **Behavioral Cloning** 
 
-[![Udacity - Self-Driving Car NanoDegree](https://s3.amazonaws.com/udacity-sdc/github/shield-carnd.svg)](http://www.udacity.com/drive)
 
-Overview
----
-This repository contains starting files for the Behavioral Cloning Project.
+**Behavioral Cloning Project**
 
-In this project, you will use what you've learned about deep neural networks and convolutional neural networks to clone driving behavior. You will train, validate and test a model using Keras. The model will output a steering angle to an autonomous vehicle.
-
-We have provided a simulator where you can steer a car around a track for data collection. You'll use image data and steering angles to train a neural network and then use this model to drive the car autonomously around the track.
-
-We also want you to create a detailed writeup of the project. Check out the [writeup template](https://github.com/udacity/CarND-Behavioral-Cloning-P3/blob/master/writeup_template.md) for this project and use it as a starting point for creating your own writeup. The writeup can be either a markdown file or a pdf document.
-
-To meet specifications, the project will require submitting five files: 
-* model.py (script used to create and train the model)
-* drive.py (script to drive the car - feel free to modify this file)
-* model.h5 (a trained Keras model)
-* a report writeup file (either markdown or pdf)
-* video.mp4 (a video recording of your vehicle driving autonomously around the track for at least one full lap)
-
-This README file describes how to output the video in the "Details About Files In This Directory" section.
-
-Creating a Great Writeup
----
-A great writeup should include the [rubric points](https://review.udacity.com/#!/rubrics/432/view) as well as your description of how you addressed each point.  You should include a detailed description of the code used (with line-number references and code snippets where necessary), and links to other supporting documents or external references.  You should include images in your writeup to demonstrate how your code works with examples.  
-
-All that said, please be concise!  We're not looking for you to write a book here, just a brief description of how you passed each rubric point, and references to the relevant code :). 
-
-You're not required to use markdown for your writeup.  If you use another method please just submit a pdf of your writeup.
-
-The Project
----
 The goals / steps of this project are the following:
-* Use the simulator to collect data of good driving behavior 
-* Design, train and validate a model that predicts a steering angle from image data
-* Use the model to drive the vehicle autonomously around the first track in the simulator. The vehicle should remain on the road for an entire loop around the track.
+* Use the simulator to collect data of good driving behavior
+* Build, a convolution neural network in Keras that predicts steering angles from images
+* Train and validate the model with a training and validation set
+* Test that the model successfully drives around track one without leaving the road
 * Summarize the results with a written report
 
-### Dependencies
-This lab requires:
+---
 
-* [CarND Term1 Starter Kit](https://github.com/udacity/CarND-Term1-Starter-Kit)
+### Model Architecture and Training Strategy
 
-The lab enviroment can be created with CarND Term1 Starter Kit. Click [here](https://github.com/udacity/CarND-Term1-Starter-Kit/blob/master/README.md) for the details.
+#### 1. An appropriate model architecture has been employed
 
-The following resources can be found in this github repository:
-* drive.py
-* video.py
-* writeup_template.md
+My model is samiliar with the network in the lesson ``Even More Powerful Network`` from NVIDIA, the architecture of my model is shown below. The network is build in (model.py lines 45-61)
 
-The simulator can be downloaded from the classroom. In the classroom, we have also provided sample data that you can optionally use to help train your model.
+![Network Architecture](./examples/network_arch.png)
 
-## Details About Files In This Directory
+#### 2. Attempts to reduce overfitting in the model
 
-### `drive.py`
+The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 107-111). 
 
-Usage of `drive.py` requires you have saved the trained model as an h5 file, i.e. `model.h5`. See the [Keras documentation](https://keras.io/getting-started/faq/#how-can-i-save-a-keras-model) for how to create this file using the following command:
-```sh
-model.save(filepath)
-```
+#### 3. Model parameter tuning
 
-Once the model has been saved, it can be used with drive.py using this command:
+The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 106).
 
-```sh
-python drive.py model.h5
-```
+#### 4. Appropriate training data
 
-The above command will load the trained model and use the model to make predictions on individual images in real-time and send the predicted angle back to the server via a websocket connection.
+I used three dataset to train the network, one is the original `project3_data /data` given by udacity and the other two is I get from the simulator called `project3_data/road_1` and `project3_data/road_rev_1`. There are 14207 center images in these three folders in total. I split them into training set (11365 images) and valid set (2842 images).
 
-Note: There is known local system's setting issue with replacing "," with "." when using drive.py. When this happens it can make predicted steering values clipped to max/min values. If this occurs, a known fix for this is to add "export LANG=en_US.utf8" to the bashrc file.
+---
 
-#### Saving a video of the autonomous agent
+### Overall Design Process in Behavioral Cloning Project
 
-```sh
-python drive.py model.h5 run1
-```
+* I used the neural network samiliar with the network in the lesson ``Even More Powerful Network`` proposed by NVIDIA. The first layer is a Lambda layer to normalize the input image, then followed by a Cropping2D layer to crop the iamge for faster training. The result of this Cropping2D layer is shown below. The rest of the network are some convoluation layers and fully connected layers.
 
-The fourth argument, `run1`, is the directory in which to save the images seen by the agent. If the directory already exists, it'll be overwritten.
+**Before Crop**
 
-```sh
-ls run1
+![Before Crop](./examples/before_crop.jpg)
 
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_424.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_451.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_477.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_528.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_573.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_618.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_697.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_723.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_749.jpg
-[2017-01-09 16:10:23 EST]  12KiB 2017_01_09_21_10_23_817.jpg
-...
-```
+**After Crop**
 
-The image file name is a timestamp of when the image was seen. This information is used by `video.py` to create a chronological video of the agent driving.
+![After Crop](./examples/after_crop.png)
 
-### `video.py`
+* To do the data agumentation I flip the each images and angles and use the augmentated dataset to do training and validation. The data agumentation process is shown below:
 
-```sh
-python video.py run1
-```
+**Before Agumentation**
 
-Creates a video based on images found in the `run1` directory. The name of the video will be the name of the directory followed by `'.mp4'`, so, in this case the video will be `run1.mp4`.
+![Before Agumentation](./examples/Before_Augmentated.jpg)
 
-Optionally, one can specify the FPS (frames per second) of the video:
+**After Agumentation**
 
-```sh
-python video.py run1 --fps 48
-```
+![After Agumentation](./examples/After_Augmentated.JPG)
 
-Will run the video at 48 FPS. The default FPS is 60.
+* Then I trained the network by using Keras build in adam optimizer and mean square error, I trained the network 5 epoaches to avoid overfitting.
 
-#### Why create a video
-
-1. It's been noted the simulator might perform differently based on the hardware. So if your model drives succesfully on your machine it might not on another machine (your reviewer). Saving a video is a solid backup in case this happens.
-2. You could slightly alter the code in `drive.py` and/or `video.py` to create a video of what your model sees after the image is processed (may be helpful for debugging).
-
-### Tips
-- Please keep in mind that training images are loaded in BGR colorspace using cv2 while drive.py load images in RGB to predict the steering angles.
-
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
+* Finally I use the simulator to test the model `model.h5` and generate the video to visual which is `run1.mp4`
 
